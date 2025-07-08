@@ -11,7 +11,7 @@ class Config:
     # Training
     batch_size = 8    # Small batch size for CPU
     learning_rate = 1e-3
-    max_iters = 2000  # Training iterations
+    max_iters = 3000  # More iterations for larger dataset
     eval_interval = 100
     eval_iters = 50
     
