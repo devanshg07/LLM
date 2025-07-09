@@ -147,16 +147,16 @@ def main():
     # Load configuration
     config = Config()
     
-    # Prepare data
+    # Prepare data first to get vocabulary size
     data_loader = DataLoader(None, config)
     train_data, val_data = data_loader.prepare_data('dataset/input.txt')
     
-    # Update config with vocabulary size
+    # Update config with vocabulary size BEFORE creating model
     vocab_size = data_loader.tokenizer.vocab_size
     config.vocab_size = vocab_size
     print(f"Vocabulary size: {vocab_size}")
     
-    # Create model
+    # Create model with updated config
     model = GPTModel(config)
     print(f"Model created with {sum(p.numel() for p in model.parameters()):,} parameters")
     
