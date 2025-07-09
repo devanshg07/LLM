@@ -58,7 +58,7 @@ class DataLoader:
         data = torch.tensor(tokens, dtype=torch.long)
         
         # Split into train and validation
-        n = int(self.config.train_split * len(data))
+        n = int(0.9 * len(data))  # Use 0.9 directly since config is not available yet
         train_data = data[:n]
         val_data = data[n:]
         
@@ -140,28 +140,23 @@ def main():
     random.seed(42)
     np.random.seed(42)
     
-    # Setup device
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    print(f"Using device: {device}")
-    
-    # Load configuration
-    config = Config()
-    
-    # Prepare data first to get vocabulary size
-    data_loader = DataLoader(None, config)
+    # Prepare data and tokenizer first
+    data_loader = DataLoader(None, None)
     train_data, val_data = data_loader.prepare_data('dataset/input.txt')
-    
-    # Update config with vocabulary size BEFORE creating model
     vocab_size = data_loader.tokenizer.vocab_size
-    config.vocab_size = vocab_size
     print(f"Vocabulary size: {vocab_size}")
     
-    # Create model with updated config
+    # Now create config with vocab_size
+    config = Config(vocab_size=vocab_size)
+    # Update data_loader with config
+    data_loader.config = config
+    
+    # Create model
     model = GPTModel(config)
     print(f"Model created with {sum(p.numel() for p in model.parameters()):,} parameters")
     
     # Create trainer
-    trainer = Trainer(model, config, device)
+    trainer = Trainer(model, config, device='cuda' if torch.cuda.is_available() else 'cpu')
     
     # Train model
     trained_model = trainer.train(train_data, val_data, data_loader)
