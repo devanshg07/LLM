@@ -45,7 +45,6 @@ class TextGenerator:
                 top_k=top_k
             )
         
-        # Decode generated tokens
         generated_text = self.tokenizer.decode(generated_tokens[0].tolist(), remove_special_tokens=True)
         
         return generated_text
