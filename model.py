@@ -55,6 +55,7 @@ class Block(nn.Module):
 
 class GPTModel(nn.Module):
     def __init__(self, config):
+        print(f"[DEBUG] GPTModel config: vocab_size={config.vocab_size}, n_embd={config.n_embd}, block_size={config.block_size}, n_layer={config.n_layer}, n_head={config.n_head}, dropout={config.dropout}")
         super().__init__()
         self.config = config
         
@@ -79,6 +80,7 @@ class GPTModel(nn.Module):
             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
             
     def forward(self, idx, targets=None):
+        print(f"[DEBUG] GPTModel.forward: idx.shape={idx.shape}, idx.dtype={idx.dtype}, idx.device={idx.device}")
         device = idx.device
         b, t = idx.size()
         assert t <= self.config.block_size, f"Cannot forward sequence of length {t}, block size is only {self.config.block_size}"
