@@ -25,7 +25,7 @@ class DataLoader:
             tuple: (x, y) where x is input tokens and y is target tokens
         """
         # Generate random starting indices
-        ix = torch.randint(len(data) - self.config.block_size, (batch_size,))
+        ix = torch.randint(0, len(data) - self.config.block_size, (batch_size,))
         
         # Create input and target sequences
         x = torch.stack([data[i:i+self.config.block_size] for i in ix])
