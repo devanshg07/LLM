@@ -12,7 +12,7 @@ class Config:
         # Training - More iterations and larger batch size
         self.batch_size = 16   # Increased from 8
         self.learning_rate = 3e-4  # Slightly lower for stability
-        self.max_iters = 100000  # Increased to 100k iterations
+        self.max_iters = 5000  # Back to 5k iterations
         self.eval_interval = 100
         self.eval_iters = 50
 
