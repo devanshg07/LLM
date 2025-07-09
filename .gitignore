@@ -1,1 +1,45 @@
+# Virtual environment
 venv/
+
+# Model files (can be large)
+*.pt
+*.pth
+*.ckpt
+*.bin
+
+# Tokenizer files
+tokenizer.json
+*.tokenizer
+
+# Training artifacts
+best_model.pt
+final_model.pt
+checkpoints/
+logs/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+.env.local
+
+# Temporary files
+*.tmp
+*.temp
