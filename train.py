@@ -7,6 +7,7 @@ from model import GPTModel
 from tokenizer import Tokenizer
 from config import Config
 import os
+import traceback
 
 class DataLoader:
     def __init__(self, tokenizer, config):
@@ -14,7 +15,7 @@ class DataLoader:
         self.config = config
         
     def get_batch(self, data, batch_size):
-        # Debug print
+        # Debug  print
         print(f"[DEBUG] get_batch: batch_size={batch_size}, block_size={self.config.block_size}, data_len={len(data)}")
         # Generate random starting indices
         ix = torch.randint(0, len(data) - self.config.block_size, (batch_size,))
@@ -109,4 +110,9 @@ def main():
     print("Model and tokenizer saved!")
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print("=== EXCEPTION CAUGHT ===")
+        traceback.print_exc()
+        raise
