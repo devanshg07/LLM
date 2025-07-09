@@ -12,6 +12,13 @@ class TextGenerator:
         self.tokenizer = Tokenizer.load(tokenizer_path)
         print(f"Loaded tokenizer with {self.tokenizer.vocab_size} tokens")
         
+        # Debug: Print some vocabulary items
+        print(f"Tokenizer vocab sample: {list(self.tokenizer.vocab.items())[:10]}")
+        print(f"Tokenizer idx_to_token sample: {list(self.tokenizer.idx_to_token.items())[:10]}")
+        print(f"Full tokenizer vocab size: {len(self.tokenizer.vocab)}")
+        print(f"Full tokenizer idx_to_token size: {len(self.tokenizer.idx_to_token)}")
+        print(f"All tokenizer mappings: {self.tokenizer.idx_to_token}")
+        
         # Create config with correct vocab_size
         self.config = Config(vocab_size=self.tokenizer.vocab_size)
         
@@ -32,6 +39,7 @@ class TextGenerator:
             
         # Encode prompt
         prompt_tokens = self.tokenizer.encode(prompt, add_special_tokens=False)
+        print(f"[DEBUG] Prompt '{prompt}' encoded as: {prompt_tokens}")
         
         # Convert to tensor
         x = torch.tensor([prompt_tokens], dtype=torch.long, device=self.device)
@@ -45,7 +53,14 @@ class TextGenerator:
                 top_k=top_k
             )
         
+        print(f"[DEBUG] Generated token IDs: {generated_tokens[0].tolist()}")
+        
+        # Debug: Check what specific tokens map to
+        print(f"[DEBUG] Token ID 61 maps to: '{self.tokenizer.idx_to_token.get(61, 'NOT_FOUND')}'")
+        print(f"[DEBUG] Token ID 58 maps to: '{self.tokenizer.idx_to_token.get(58, 'NOT_FOUND')}'")
+        
         generated_text = self.tokenizer.decode(generated_tokens[0].tolist(), remove_special_tokens=True)
+        print(f"[DEBUG] Final decoded text: '{generated_text}'")
         
         return generated_text
     
